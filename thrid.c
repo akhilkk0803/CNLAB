@@ -1,9 +1,8 @@
-// Online C compiler to run C program online
 #include <stdio.h>
 void goBackNArq(int frames,int wz){
     int i=1;
     while(i<=frames){
-        for(int temp=i;temp<=i+wz && temp<=frames ;temp++){
+        for(int temp=i;temp<i+wz && temp<=frames ;temp++){
             printf("SENDING FRAME %d\n",temp);
         }
         for(int j=0;j<wz && i<=frames;j++){
@@ -23,7 +22,7 @@ void goBackNArq(int frames,int wz){
 void selective(int frames,int wz){
      int i=1;
     while(i<=frames){
-        for(int temp=i;temp<=i+wz && temp<=frames ;temp++){
+        for(int temp=i;temp<i+wz && temp<=frames ;temp++){
             printf("SENDING FRAME %d\n",temp);
         }
         for(int j=0;j<wz && i<=frames;j++){
@@ -49,6 +48,5 @@ int main() {
     scanf("%d %d",&frames,&wz);
     goBackNArq(frames,wz);
     selective(frames,wz);
-
     return 0;
 }
