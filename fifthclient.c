@@ -5,9 +5,7 @@
 Write your code in this editor and press "Run" button to compile and execute it.
 
 *******************************************************************************/
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
+
 #include<arpa/inet.h>
 #include<unistd.h>
 #include <stdio.h>
