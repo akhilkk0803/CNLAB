@@ -13,7 +13,7 @@ int main() {
     scanf("%d %d %d %d",&h[3],&h[5],&h[6],&h[7]);
     h[1]=h[3]^h[5]^h[7];
     h[2]=h[3]^h[6]^h[7];
-    h[3]=h[5]^h[6]^h[7];
+    h[4]=h[5]^h[6]^h[7];
     printf("Enter bits at receving end");
     for(int i=1;i<8;i++){
         scanf("%d",&r[i]);
