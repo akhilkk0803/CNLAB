@@ -12,7 +12,7 @@ int main(){
     struct sockaddr_in serverAddress,clientAddress;
     
     //socklen_t  used to represent the length of socket-related structures
-    socklen_t clientAdressLen=sizeof(clientAddress);
+   int clientAdressLen=sizeof(clientAddress);
     
     //AF_INET:  indicates that the socket will be used for IPv4 addresses.
     // SOCK_STREAM: This parameter specifies the type of socket,  provides sequenced, reliable, two-way, connection-based byte streams. 
@@ -20,10 +20,6 @@ int main(){
     server_socket=socket(AF_INET,SOCK_STREAM,0);
     
     char buffer[BUFFER_SIZE];
-    if(server_socket==-1){
-        printf("ERROR CREATING SERVER");
-        exit(0);
-    }
 
 
 // Sets the address family of the server's socket structure to IPv4.
@@ -40,20 +36,14 @@ serverAddress.sin_port=htons(PORT);
 // address:that contains the network address and port number you want to bind to,
 // size:of address in bytes
 //)
-if(bind(server_socket,(struct sockaddr *)&serverAddress,sizeof(serverAddress))==-1){
-    printf("ERROR BINDIND SOCKET");
-    exit(0);
-}
+bind(server_socket,(struct sockaddr *)&serverAddress,sizeof(serverAddress));
+
 
 
 //socket: This parameter is the file descriptor of the server socket that you want to listen on.
 //backlog: This parameter is an integer value that specifies the maximum length of the queue of pending connections.
 //It indicates how many incoming connections the server is willing to queue up while waiting for the application to accept them.
-if(listen(server_socket,5)==-1){
-    printf("ERROR LISTENING");
-    exit(0);
-}
-
+listen(server_socket,5);
 
 printf("Server listening on port %d\n",PORT);
 
@@ -62,24 +52,15 @@ printf("Server listening on port %d\n",PORT);
 //clientAdress:to store the address information of the client that is connecting to the server,
 //len of clientAddress
 //)
+    
  client_socket=accept(server_socket,(struct sockaddr *)&clientAddress,  &clientAdressLen);
- if(client_socket==-1){
-     printf("ERROR ACCEPTING REQUEST");
-     exit(0);
- }
- 
- 
-    printf("Recived connection");
-
+ printf("Recived connection");
 // recv(the socket from which data is to be received,
 // buffer:pointer to which the data is to be stored,
 // BUFFER_SIZE:max len of data ,
 //flag:It's usually set to 0 for normal operation.
 //)
-    if(recv(client_socket,buffer,BUFFER_SIZE,0)==-1){
-        printf("ERROR RECEVING DATA");
-        exit(0);
-    }
+   recv(client_socket,buffer,BUFFER_SIZE,0);
     
    printf("Recived from client");
    for(int i=0;buffer[i];i++){
@@ -87,13 +68,7 @@ printf("Server listening on port %d\n",PORT);
    }
    
    
-   if(send(client_socket,buffer,strlen(buffer),0)==-1){
-       printf("ERROR SENDING DATA");
-       exit(0);
-   }
-   
-   
-   
+  send(client_socket,buffer,strlen(buffer),0);
    
    close(client_socket);
    close(server_socket);
