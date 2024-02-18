@@ -5,15 +5,13 @@
 Write your code in this editor and press "Run" button to compile and execute it.
 
 *******************************************************************************/
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
+
+
 #include<arpa/inet.h>
-#include<unistd.h>
+
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include<ctype.h>
 #define PORT 12345
 #define BUFFER_SIZE 1024
 int main()
