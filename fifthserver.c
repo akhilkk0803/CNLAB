@@ -1,69 +1,100 @@
-/******************************************************************************
-
-                            Online C Compiler.
-                Code, Compile, Run and Debug C program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
-
-#include<arpa/inet.h>
-
-#include <stdio.h>
 #include<stdlib.h>
+#include<stdio.h>
 #include<string.h>
-#define PORT 12345
+#include<arpa/inet.h>
+#include<ctype.h>
+#define PORT 8080
 #define BUFFER_SIZE 1024
-int main()
-{
-   int server_socket ,client_socket;
-   struct sockaddr_in server_address,client_address;
-   socklen_t client_address_len=sizeof(client_address);
-   server_socket=socket(AF_INET,SOCK_STREAM,0);
-   char buffer[BUFFER_SIZE];
-   if(server_socket==-1){
-       perror("ERROR CREATING SOCKET");
-       exit(EXIT_FAILURE);
-   }
-   
-   server_address.sin_family=AF_INET;
-   server_address.sin_addr.s_addr=INADDR_ANY;
-   server_address.sin_port=htons(PORT);
-   
-   if(bind(server_socket,(struct sockaddr*)&server_address
-   , sizeof(server_address))==-1){
-       perror("ERROR BINDING SOCKET");
-       exit(0);
-   }
-   
-   
-   if(listen(server_socket,5)==-1){
-       perror("ERROR LISTENING");
-       exit(0);
-   }
-   
-   printf("Server listening on port %d\n",PORT);
-   client_socket=accept(server_socket,(struct sockadd*)&
-   client_address,&client_address_len);
-   if(client_socket==-1){
-       perror("Error accepting connection");
-       exit(0);
-   }
-   printf("Recived connection");
-   if(recv(client_socket,buffer,BUFFER_SIZE,0)==-1){
-       perror("Error Recving data");
-       exit(0);
-   }
+int main(){
+    int server_socket,client_socket;
+    
+    //sockaddr_in:  it's a structure specifically designed for handling Internet addresses.
+    struct sockaddr_in serverAddress,clientAddress;
+    
+    //socklen_t  used to represent the length of socket-related structures
+    socklen_t clientAdressLen=sizeof(clientAddress);
+    
+    //AF_INET:  indicates that the socket will be used for IPv4 addresses.
+    // SOCK_STREAM: This parameter specifies the type of socket,  provides sequenced, reliable, two-way, connection-based byte streams. 
+    // 0: This parameter (also known as the protocol parameter) allowing the system to choose the most appropriate protocol automatically.
+    server_socket=socket(AF_INET,SOCK_STREAM,0);
+    
+    char buffer[BUFFER_SIZE];
+    if(server_socket==-1){
+        printf("ERROR CREATING SERVER");
+        exit(0);
+    }
+
+
+// Sets the address family of the server's socket structure to IPv4.
+serverAddress.sin_family=AF_INET;
+
+// Sets the IP address of the server's socket structure to any available IP address on the local machine.
+serverAddress.sin_addr.s_addr=INADDR_ANY;
+
+//Sets the port number of the server's socket structure to the specified PORT, converting it to network byte order.
+serverAddress.sin_port=htons(PORT);
+
+
+// bind(socket: The file descriptor of the socket that you want to bind,
+// address:that contains the network address and port number you want to bind to,
+// size:of address in bytes
+//)
+if(bind(server_socket,(struct sockaddr *)&serverAddress,sizeof(serverAddress))==-1){
+    printf("ERROR BINDIND SOCKET");
+    exit(0);
+}
+
+
+//socket: This parameter is the file descriptor of the server socket that you want to listen on.
+//backlog: This parameter is an integer value that specifies the maximum length of the queue of pending connections.
+//It indicates how many incoming connections the server is willing to queue up while waiting for the application to accept them.
+if(listen(server_socket,5)==-1){
+    printf("ERROR LISTENING");
+    exit(0);
+}
+
+
+printf("Server listening on port %d\n",PORT);
+
+
+// accept(server_socket: The file descriptor of the server socket that is listening for incoming connections,
+//clientAdress:to store the address information of the client that is connecting to the server,
+//len of clientAddress
+//)
+ client_socket=accept(server_socket,(struct sockaddr *)&clientAddress,  &clientAdressLen);
+ if(client_socket==-1){
+     printf("ERROR ACCEPTING REQUEST");
+     exit(0);
+ }
+ 
+ 
+    printf("Recived connection");
+
+// recv(the socket from which data is to be received,
+// buffer:pointer to which the data is to be stored,
+// BUFFER_SIZE:max len of data ,
+//flag:It's usually set to 0 for normal operation.
+//)
+    if(recv(client_socket,buffer,BUFFER_SIZE,0)==-1){
+        printf("ERROR RECEVING DATA");
+        exit(0);
+    }
+    
    printf("Recived from client");
    for(int i=0;buffer[i];i++){
        buffer[i]=toupper(buffer[i]);
    }
+   
+   
    if(send(client_socket,buffer,strlen(buffer),0)==-1){
-       perror("ERROR SENDING DATA");
+       printf("ERROR SENDING DATA");
        exit(0);
    }
+   
+   
+   
+   
    close(client_socket);
    close(server_socket);
-   
-    return 0;
 }
