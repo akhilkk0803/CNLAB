@@ -1,47 +1,43 @@
-#include <stdio.h>
-#include<string.h>
+/******************************************************************************
 
-int firstBlockAdd(char s[]){
-    int curr=0;
-    for(int i=0;s[i]!='.';i++){
-        curr*=10;
-        curr+=s[i]-'0';
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <stdio.h>
+void getAddr(int a,int b,int c,int d){
+    if(a<128){
+        printf("Class A\n");
+        printf("NetWork %d.0.0.0",a);
+        printf("Host %d.%d.%d.0",b,c,d);
     }
-    return curr;
-}
-char getClass(int i){
-    if(i<128)return 'A';
-    else if(i<192)return 'B';
-    else if(i<224)return 'C';
-    else if(i<240)return 'D';
-    else return 'E';
-}
-int  getNetworkAddress(char s[]){
-    int count=getClass(firstBlockAdd(s))-'A'+1;
-    char ans[20]="";
-    int i=0;
-    while(count>0 && i<strlen(s)){
-        if(s[i]=='.')count--;
-        char temp[2]={s[i],'\0'};
-        strcat(ans,temp);
-        i++;
+    else if(a<192){
+        printf("Class B");
+        printf("NetWork %d.%d.0.0\n",a,b);
+        printf("Host %d.%d.0.0\n",c,d);
     }
-    printf("Network address %s\n",ans);
-    return i;
-}
-void getHostAddress(char s[],int start){
-    char ans[20]="";
-    for(int i=start;i<strlen(s);i++){
-        char temp[2]={s[i],'\0'};
-        strcat(ans,temp);
+    else if(a<224){
+        printf("Class C\n");
+        printf("NetWork %d.%d.%d.0\n",a,b,c);
+        printf("Host %d.0.0.0\n",d);
     }
-    printf(" Host Address %s",ans);
+    else if(a<240){
+        printf("CLASS D\n");
+    }
+    else if(a<256){
+        printf("CLASS E\n");
+    }
+    else {
+        printf("INVALID");
+    }
 }
-int main() {
-    char s[20];
-    printf("Enter the  IPv4 address");
+int main()
+{   char s[16];
     scanf("%s",s);
-    int start=getNetworkAddress(s);
-    getHostAddress(s,start);
+    int a,b,c,d;
+    sscanf(s,"%d.%d.%d.%d",&a,&b,&c,&d);
+    getAddr(a,b,c,d);
     return 0;
 }
