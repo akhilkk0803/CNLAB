@@ -73,3 +73,7 @@ printf("Server listening on port %d\n",PORT);
    close(client_socket);
    close(server_socket);
 }
+
+// to run the code in terminal 
+// gcc filename.c -o server
+// ./server
