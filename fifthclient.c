@@ -28,3 +28,6 @@ int main()
     printf("Received from server %s",buffer);
     return 0;
 }
+// to run the code in terminal 
+// gcc filename.c -o client
+// ./client
