@@ -11,17 +11,17 @@ void getAddr(int a,int b,int c,int d){
     if(a<128){
         printf("Class A\n");
         printf("NetWork %d.0.0.0",a);
-        printf("Host %d.%d.%d.0",b,c,d);
+        printf("Host %d.%d.%d",b,c,d);
     }
     else if(a<192){
         printf("Class B");
         printf("NetWork %d.%d.0.0\n",a,b);
-        printf("Host %d.%d.0.0\n",c,d);
+        printf("Host %d.%d\n",c,d);
     }
     else if(a<224){
         printf("Class C\n");
         printf("NetWork %d.%d.%d.0\n",a,b,c);
-        printf("Host %d.0.0.0\n",d);
+        printf("Host %d\n",d);
     }
     else if(a<240){
         printf("CLASS D\n");
